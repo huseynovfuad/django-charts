@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="mt-5">
+        <canvas id="myChart"></canvas>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        const ctx = document.getElementById('myChart');
+        let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+
+        Chart.defaults.global.defaultFontStyle = '600';
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Test',
+                    data: [2, 4, 7, 10, 15, 19],
+                    borderWidth: 1,
+                    fill: false,
+                    backgroundColor: "#fad390",
+                    {#hoverBackgroundColor: "#eb2f06",#}
+                },]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                legend: {
+                    display: false
+                },
+
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            offsetGridLines: false,
+                            color: "rgba(0, 0, 0, 0)",
+                            drawBorder: false,
+                            drawChartArea: false,
+                        },
+                        ticks: {
+                            padding: 10,
+                            fontColor: '#000',
+                            callback: function (value, index, values) {
+                                console.log(value)
+                                console.log(index)
+                                console.log(values)
+                                return value
+                            }
+                        }
+                    }],
+
+
+                    yAxes: [{
+                        gridLines: {
+                            drawBorder: false,
+                            display: true,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            padding: 20,
+                            fontFamily: "Poppins",
+                            fontColor: '#b2bec3',
+                            max: 30,
+                            stepSize: 2,
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                var last_index = values.length - 1
+                                var real_index = last_index - index
+                                if (real_index % 3 == 0) {
+                                    return value
+                                }
+                                return ""
+                            }
+                        },
+                    }]
+                },
+            },
+        });
+    </script>
+{% endblock %}

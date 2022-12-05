@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="mt-5">
+        <canvas id="myChart"></canvas>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        const ctx = document.getElementById('myChart');
+        let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+
+        Chart.defaults.global.defaultFontStyle = '600';
+
+        new Chart(ctx, {
+            type: 'bar',
+            bezierCurve: false,
+            scaleShowVerticalLines: false,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Dataset 1',
+                    data: [1, 5, 8, 10, 15, 18],
+                    backgroundColor: "#c0392b",
+                    barThickness: 50,
+                }, {
+                    label: 'Dataset 2',
+                    data: [2, 4, 7, 9, 13, 19.8],
+                    backgroundColor: "#f39c12",
+                    barThickness: 50,
+                }, {
+                    label: 'Dataset 2',
+                    data: [5, 7, 10, 12, 18, 20],
+                    backgroundColor: "#9b59b6",
+                    barThickness: 50,
+                },]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                legend: {
+                    display: true,
+                    position: "bottom",
+                    padding: 20,
+                },
+                interaction: {
+                    intersect: true,
+                },
+
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                        gridLines: {
+                            offsetGridLines: false,
+                            color: "rgba(0, 0, 0, 0)",
+                            drawBorder: false,
+                            drawChartArea: false,
+                        },
+                        ticks: {
+                            padding: 10,
+                            fontColor: '#000',
+                            autoSkip: false,
+                            maxRotation: 45,
+                            minRotation: 45,
+                            callback: function (value, index, values) {
+                                return value
+                            }
+                        }
+                    }],
+
+
+                    yAxes: [{
+                        stacked: true,
+                        gridLines: {
+                            drawBorder: false,
+                            display: true,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            padding: 20,
+                            fontFamily: "Poppins",
+                            fontColor: '#b2bec3',
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return value
+                            }
+                        },
+                    }]
+                },
+            },
+        });
+    </script>
+{% endblock %}

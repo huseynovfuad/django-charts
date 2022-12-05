@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block body %}
+    <div class="mt-5" id="chartBox">
+        <canvas id="myChart"></canvas>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        const ctx = document.getElementById('myChart');
+        let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+
+        Chart.defaults.global.defaultFontStyle = '600';
+
+        const chartAreaBorder = {
+            id: "chartAreaBorder",
+            beforeDatasetsDraw(chart, args, pluginOptions){
+                const {ctx, chartArea: {top, bottom, left, right, width, height}} =
+                    chart;
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#000';
+                ctx.moveTo(left, top);
+                ctx.lineTo(right - 2, top);
+                ctx.lineTo(right - 2, bottom);
+                ctx.lineTo(left, bottom);
+                ctx.closePath();
+                ctx.marginWidth = 100;
+                ctx.height = height*2;
+                ctx.closePath();
+                ctx.stroke();
+
+            }
+
+        }
+
+        new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'test1',
+                    data: [2, 4, 7, 10, 15, 19],
+                    borderWidth: 1,
+                    fill: false,
+                    backgroundColor: "#3498db",
+                    barThickness: 20,
+                }, {
+                    label: 'test2',
+                    data: [3, 5, 8, 12, 17, 20],
+                    borderWidth: 1,
+                    fill: false,
+                    backgroundColor: "#f39c12",
+                    barThickness: 20,
+                    barThickness: 20,
+                },]
+            },
+            options: {
+                responsive: true,
+                {#maintainAspectRatio: true,#}
+                legend: {
+                    display: true,
+                },
+
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            offsetGridLines: false,
+                            color: "rgba(0, 0, 0, 0)",
+                            drawBorder: false,
+                            drawChartArea: false,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            padding: 10,
+                            stepSize: 3,
+                            callback: function (value, index, values) {
+                                return value
+                            }
+                        }
+                    }],
+
+
+                    yAxes: [{
+                        gridLines: {
+                            offsetGridLines: false,
+                            color: "rgba(0, 0, 0, 0)",
+                            drawBorder: false,
+                            drawChartArea: false,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            padding: 20,
+                            fontFamily: "Poppins",
+                            fontColor: '#000',
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return value
+                            }
+                        },
+                    }]
+                },
+            },
+            plugins: [chartAreaBorder]
+        });
+    </script>
+{% endblock %}

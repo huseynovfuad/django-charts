@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+    <style>
+        #chart-legend {
+            color: red !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="mt-5">
+        <canvas id="myChart"></canvas>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
+    <script>
+        const ctx = document.getElementById('myChart');
+        let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+
+        Chart.defaults.global.defaultFontStyle = '600';
+
+        new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Share of population that lives in capital',
+                    data: [2, 4, 7, 10, 15, 19],
+                    borderWidth: 1,
+                    fill: false,
+                    backgroundColor: "#3498db",
+                    barThickness: 50,
+                    color: 'white',
+                },]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: 'white',
+                        font: {
+                            weight: 'bold'
+                        },
+                        align: 'start',
+                        anchor: 'end',
+                        padding: {
+                            right: 60,
+                        }
+                    }
+                },
+                responsive: true,
+                {#maintainAspectRatio: true,#}
+                legend: {
+                    display: true,
+                    align: "start",
+                    labels: {
+                        fontSize: 18,
+                    }
+                },
+
+                scales: {
+                    xAxes: [{
+                        display: false,
+                        gridLines: {
+                            offsetGridLines: false,
+                            color: "rgba(0, 0, 0, 0)",
+                            drawBorder: false,
+                            drawChartArea: false,
+                            display: false,
+                            offsetGridLines: false,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            padding: 10,
+                            fontColor: '#f1f1f1',
+                            callback: function (value, index, values) {
+                                return value
+                            }
+                        }
+                    }],
+
+
+                    yAxes: [{
+                        gridLines: {
+                            drawBorder: false,
+                            display: true,
+                            offsetGridLines: false,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            padding: 20,
+                            fontFamily: "Poppins",
+                            fontColor: '#000',
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return value
+                            }
+                        },
+                    }]
+                },
+            },
+            plugins: [ChartDataLabels],
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block body %}
+    <div class="mt-5" id="chartBox">
+        <canvas id="myChart"></canvas>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
+    <script>
+        const ctx = document.getElementById('myChart');
+        let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+
+        Chart.defaults.global.defaultFontStyle = '600';
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'test1',
+                    data: [140, 100, 150, 200, 150, 70],
+                    fill: true,
+                    fillColor: "red",
+                    backgroundColor: "rgba(72, 219, 251, 0.3)",
+                    borderColor: "#0652DD",
+                    borderWidth: 3,
+                    pointRadius: 16,
+                    pointHoverRadius: 20,
+                    pointBackgroundColor: "#0652DD",
+                    pointBorderColor: "white",
+                    pointPadding: 10,
+                    opacity: 0.3,
+                    pointStyle: 'rect',
+                },{
+                    label: 'test1',
+                    data: [100, 110, 130, 70, 200, 140],
+                    fill: true,
+                    fillColor: "red",
+                    backgroundColor: "rgba(29, 209, 161, 0.3)",
+                    borderColor: "#009432",
+                    borderWidth: 3,
+                    pointRadius: 16,
+                    pointHoverRadius: 20,
+                    pointBackgroundColor: "#009432",
+                    pointBorderColor: "white",
+                    opacity: 0.3,
+                    pointStyle: 'rect',
+                },]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: 'white',
+                        padding: 10,
+                    }
+                },
+                responsive: true,
+                {#maintainAspectRatio: true,#}
+                legend: {
+                    display: true,
+                    position: "bottom"
+                },
+
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            offsetGridLines: false,
+                            drawChartArea: false,
+                            drawOnChartArea: false,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            padding: 10,
+                            stepSize: 1,
+                            fontSize: 18,
+                            callback: function (value, index, values) {
+                                return value
+                            }
+                        }
+                    }],
+
+
+                    yAxes: [{
+                        gridLines: {
+                            drawBorder: false,
+                            display: true,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            padding: 20,
+                            fontFamily: "Poppins",
+                            fontColor: '#000',
+                            fontSize: 14,
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return value
+                            }
+                        },
+                    }]
+                },
+            },
+            plugins: [ChartDataLabels],
+        });
+    </script>
+{% endblock %}

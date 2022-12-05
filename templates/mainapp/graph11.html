@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block body %}
+    <div class="mt-5" id="chartBox">
+        <canvas id="myChart"></canvas>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
+    <script>
+        const ctx = document.getElementById('myChart');
+        let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+
+        Chart.defaults.global.defaultFontStyle = '600';
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: [140, 100, 150, 200, 150, 70],
+                    backgroundColor: ["#3498db", "#9b59b6", "#1abc9c", "#e67e22", "#badc58", "#eb4d4b"],
+                },]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: 'white',
+                        padding: 10,
+                        formatter: ( val, context ) => {
+                            var label = context.chart.data.labels[context.dataIndex]
+                            return label + "\n" + val
+                        },
+                        fontSize: 14,
+                    }
+                },
+                responsive: true,
+                {#maintainAspectRatio: true,#}
+                legend: {
+                    display: true,
+                },
+            },
+            plugins: [ChartDataLabels],
+        });
+    </script>
+{% endblock %}
